@@ -1,0 +1,16 @@
+{
+  "name": "food-tribe-os",
+  "private": true,
+  "packageManager": "pnpm@9.0.0",
+  "workspaces": [
+    "apps/*",
+    "services/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "lint": "echo 'lint placeholder'",
+    "typecheck": "echo 'typecheck placeholder'",
+    "test": "echo 'tests placeholder'",
+    "dev": "echo 'dev placeholder'"
+  }
+}
