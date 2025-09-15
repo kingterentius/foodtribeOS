@@ -1,1 +1,467 @@
+import React, { useState, useRef, useEffect } from 'react';
+
+// --- Icon Components ---
+const UserIcon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
+    <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
+  </svg>
+);
+const MailIcon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
+    <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" /><path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
+  </svg>
+);
+const LockIcon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
+    <path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clipRule="evenodd" />
+  </svg>
+);
+const CalendarIcon = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
+        <path fillRule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clipRule="evenodd" />
+    </svg>
+);
+const PlusIcon = ({className="h-10 w-10 text-orange-500"}) => (
+    <svg xmlns="http://www.w3.org/2000/svg" className={className} viewBox="0 0 20 20" fill="currentColor">
+        <path fillRule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clipRule="evenodd" />
+    </svg>
+);
+const HeartIcon = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 016.364 0L12 7.662l1.318-1.344a4.5 4.5 0 116.364 6.364L12 20.682l-7.682-7.682a4.5 4.5 0 010-6.364z" />
+    </svg>
+);
+const XIcon = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+    </svg>
+);
+const ArrowLeftIcon = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+    </svg>
+);
+
+
+// --- Authentication Components (No Changes Here) ---
+// ... (Auth components remain the same as previous version)
+function SignUpForm({ setView }) {
+    const [userType, setUserType] = useState('I Want Food');
+
+    return (
+        <div className="w-full max-w-md space-y-6">
+            <div>
+                <h2 className="text-center text-3xl font-extrabold text-gray-900">Create new Account</h2>
+                <p className="mt-2 text-center text-sm text-gray-600">
+                    Already Registered?{' '}
+                    <button onClick={() => setView('login')} className="font-medium text-orange-600 hover:text-orange-500">
+                        Log in here.
+                    </button>
+                </p>
+            </div>
+            <form className="space-y-6" action="#" method="POST">
+                <div className="relative">
+                    <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+                        <UserIcon />
+                    </div>
+                    <input id="name" name="name" type="text" required className="appearance-none rounded-md relative block w-full px-3 py-3 pl-10 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm" placeholder="Name" />
+                </div>
+                 <div className="relative">
+                    <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+                        <MailIcon />
+                    </div>
+                    <input id="email-address" name="email" type="email" autoComplete="email" required className="appearance-none rounded-md relative block w-full px-3 py-3 pl-10 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm" placeholder="Email address" />
+                </div>
+                <div className="relative">
+                    <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+                        <LockIcon />
+                    </div>
+                    <input id="password" name="password" type="password" autoComplete="current-password" required className="appearance-none rounded-md relative block w-full px-3 py-3 pl-10 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm" placeholder="Password" />
+                </div>
+                 <div className="relative">
+                    <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+                        <CalendarIcon />
+                    </div>
+                    <input id="dob" name="dob" type="text" onFocus={(e) => e.target.type='date'} onBlur={(e) => e.target.type='text'} required className="appearance-none rounded-md relative block w-full px-3 py-3 pl-10 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm" placeholder="Date of Birth" />
+                </div>
+
+                <div>
+                    <label className="text-sm font-medium text-gray-700">User Type</label>
+                    <div className="mt-2 space-y-2">
+                        {['I Want Food', 'Food Business', 'Non-Profit Working With Food', 'Food Tribe Teammate'].map((type) => (
+                            <div key={type} className="flex items-center">
+                                <input id={type} name="userType" type="radio" value={type} checked={userType === type} onChange={() => setUserType(type)} className="h-4 w-4 text-orange-600 focus:ring-orange-500 border-gray-300"/>
+                                <label htmlFor={type} className="ml-3 block text-sm font-medium text-gray-700">{type}</label>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+
+                <div>
+                    <button type="submit" className="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-orange-600 hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500">
+                        Sign up
+                    </button>
+                </div>
+            </form>
+        </div>
+    );
+}
+
+function LoginForm({ setView, onLoginSuccess }) {
+    const handleLogin = (e) => {
+        e.preventDefault();
+        onLoginSuccess();
+    };
+    return (
+        <div className="w-full max-w-md space-y-8">
+            <div>
+                <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">Login</h2>
+                <p className="mt-2 text-center text-sm text-gray-600">
+                    Sign in to continue.
+                </p>
+            </div>
+            <form className="mt-8 space-y-6" onSubmit={handleLogin}>
+                <div className="rounded-md shadow-sm -space-y-px">
+                     <div className="relative">
+                        <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+                            <UserIcon />
+                        </div>
+                        <input id="name-login" name="name" type="text" required className="appearance-none rounded-md relative block w-full px-3 py-3 pl-10 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm" placeholder="Name" />
+                    </div>
+                     <div className="relative pt-4">
+                        <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 pt-4">
+                            <LockIcon />
+                        </div>
+                        <input id="password-login" name="password" type="password" autoComplete="current-password" required className="appearance-none rounded-md relative block w-full px-3 py-3 pl-10 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm" placeholder="Password" />
+                    </div>
+                </div>
+
+                <div className="flex items-center justify-between">
+                    <div className="text-sm">
+                        <button type="button" onClick={() => setView('forgot_password')} className="font-medium text-orange-600 hover:text-orange-500">
+                            Forgot your password?
+                        </button>
+                    </div>
+                </div>
+
+                <div>
+                    <button type="submit" className="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-orange-600 hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500">
+                        Log in
+                    </button>
+                </div>
+                 <p className="mt-2 text-center text-sm text-gray-600">
+                    Don't have an account?{' '}
+                    <button type="button" onClick={() => setView('signup')} className="font-medium text-orange-600 hover:text-orange-500">
+                        Sign up here.
+                    </button>
+                </p>
+            </form>
+        </div>
+    );
+}
+
+function ForgotPasswordForm({ setView }) {
+    return (
+        <div className="w-full max-w-md space-y-8">
+            <div>
+                <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">Forgot Password</h2>
+                <p className="mt-2 text-center text-sm text-gray-600">
+                    Enter your email to receive a new password.
+                </p>
+            </div>
+            <form className="mt-8 space-y-6" action="#" method="POST">
+                 <div className="relative">
+                    <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+                        <MailIcon />
+                    </div>
+                    <input id="email-forgot" name="email" type="email" autoComplete="email" required className="appearance-none rounded-md relative block w-full px-3 py-3 pl-10 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm" placeholder="Email address" />
+                </div>
+                <div>
+                    <button type="submit" className="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-orange-600 hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500">
+                        Send
+                    </button>
+                </div>
+                <p className="mt-2 text-center text-sm text-gray-600">
+                    Remembered your password?{' '}
+                    <button type="button" onClick={() => setView('login')} className="font-medium text-orange-600 hover:text-orange-500">
+                        Log in.
+                    </button>
+                </p>
+            </form>
+        </div>
+    );
+}
+
+
+function AuthContainer({ onLoginSuccess }) {
+    const [view, setView] = useState('signup'); // 'signup', 'login', or 'forgot_password'
+
+    const renderForm = () => {
+        switch (view) {
+            case 'login':
+                return <LoginForm setView={setView} onLoginSuccess={onLoginSuccess} />;
+            case 'forgot_password':
+                return <ForgotPasswordForm setView={setView} />;
+            case 'signup':
+            default:
+                return <SignUpForm setView={setView} />;
+        }
+    };
+
+    return (
+        <div className="min-h-screen bg-gray-50 flex flex-col justify-center items-center py-12 sm:px-6 lg:px-8">
+            <div className="sm:mx-auto sm:w-full sm:max-w-md">
+                 <h1 className="text-center text-4xl font-bold text-orange-500 tracking-wider">FOOD TRIBE</h1>
+            </div>
+            <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
+                <div className="bg-white py-8 px-4 shadow-xl rounded-lg sm:px-10">
+                    {renderForm()}
+                </div>
+            </div>
+        </div>
+    );
+}
+
+// --- Header Component for Feature Screens ---
+const FeatureHeader = ({ title, onBack }) => (
+    <div className="p-4 bg-white shadow-md sticky top-0 z-10 flex items-center">
+        <button onClick={onBack} className="p-2 rounded-full hover:bg-gray-100">
+            <ArrowLeftIcon />
+        </button>
+        <h1 className="text-xl font-bold text-gray-800 ml-4">{title}</h1>
+    </div>
+);
+
+
+// --- Feature Components ---
+
+const FeatureCard = ({ title, subtitle, onClick, children, imageUrl }) => (
+    <button onClick={onClick} className="bg-orange-500 text-white rounded-2xl p-4 flex flex-col justify-between items-start w-full aspect-square shadow-lg hover:bg-orange-600 transition-transform transform hover:scale-105 relative overflow-hidden">
+        {imageUrl && <img src={imageUrl} className="absolute inset-0 w-full h-full object-cover opacity-30" alt="" />}
+        <div className="relative z-10">
+            <h3 className="font-bold text-xl text-left">{title}</h3>
+            {subtitle && <p className="text-sm text-left mt-1">{subtitle}</p>}
+        </div>
+        <div className="relative z-10 self-end mt-4 bg-white rounded-full p-1">
+           {children || <PlusIcon />}
+        </div>
+    </button>
+);
+
+const HomePage = ({ setActiveFeature }) => {
+    const features = [
+        { id: 'location_menu', title: 'Location Based Menu Items' },
+        { id: 'reviews', title: 'Reviews', subtitle: 'What People are Saying' },
+        { id: 'community', title: 'Community', subtitle: 'Join a Food Tribe' },
+        { id: 'eating_drinking', title: 'Eating & Drinking', subtitle: 'Order Food Now or Later' },
+        { id: 'tastemakers', title: 'Tastemakers', subtitle: 'Uncover Your Flavor Profile' },
+        { id: 'secondary_nav', title: 'Learn More' },
+    ];
+
+    return (
+        <div className="p-4 bg-gray-100">
+            <div className="mb-4">
+                <h2 className="text-2xl font-bold text-gray-800">What are you looking for?</h2>
+                <p className="text-gray-500">Find Food Near You</p>
+            </div>
+            <div className="grid grid-cols-2 gap-4">
+                {features.map(feature => (
+                    <FeatureCard key={feature.id} title={feature.title} subtitle={feature.subtitle} onClick={() => setActiveFeature(feature.id)}/>
+                ))}
+            </div>
+        </div>
+    );
+};
+
+// --- Location Based Menu Items Feature ---
+const menuItemsData = [
+    { id: 1, name: 'Big Waffle', distance: '1 Mile Away', image: 'https://placehold.co/400x400/FFC107/FFFFFF?text=Waffle' },
+    { id: 2, name: 'Cheese Burger', distance: '6 Miles Away', image: 'https://placehold.co/400x400/FF5722/FFFFFF?text=Burger' },
+    { id: 3, name: 'Beef Burger', distance: '5 Miles Away', image: 'https://placehold.co/400x400/E91E63/FFFFFF?text=Burger' },
+    { id: 4, name: 'Soft Drink', distance: '3 Miles Away', image: 'https://placehold.co/400x400/2196F3/FFFFFF?text=Drink' },
+    { id: 5, name: 'Small Waffle', distance: '2 Miles Away', image: 'https://placehold.co/400x400/4CAF50/FFFFFF?text=Waffle' },
+];
+
+const LocationBasedMenu = () => {
+    const [currentIndex, setCurrentIndex] = useState(0);
+
+    const handleSwipe = () => {
+        setCurrentIndex(prev => (prev + 1) % menuItemsData.length);
+    };
+
+    const currentItem = menuItemsData[currentIndex];
+
+    return (
+        <div className="flex flex-col h-screen bg-gray-200">
+            <div className="flex-grow flex items-center justify-center p-4">
+                <div className="w-full max-w-sm rounded-2xl overflow-hidden shadow-2xl bg-white relative aspect-[3/4]">
+                    <img src={currentItem.image} alt={currentItem.name} className="w-full h-full object-cover" />
+                    <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black to-transparent p-4 text-white">
+                        <h2 className="text-2xl font-bold">{currentItem.name}</h2>
+                        <p>{currentItem.distance}</p>
+                    </div>
+                </div>
+            </div>
+            <div className="flex justify-center items-center space-x-8 p-4 bg-white">
+                <button onClick={handleSwipe} className="bg-red-500 rounded-full p-4 shadow-lg"><XIcon /></button>
+                <button onClick={handleSwipe} className="bg-green-500 rounded-full p-4 shadow-lg"><HeartIcon /></button>
+            </div>
+        </div>
+    );
+};
+
+
+// --- Reviews Feature ---
+const Reviews = ({ setActiveFeature }) => {
+    const reviewCategories = [
+        { id: 1, title: 'Restaurant Reviews', subtitle: 'Restaurants Reviewed', image: 'https://placehold.co/200x200/FFC107/FFFFFF?text=Restaurant' },
+        { id: 2, title: 'Grocery Reviews', subtitle: 'Groceries Reviewed', image: 'https://placehold.co/200x200/4CAF50/FFFFFF?text=Grocery' },
+        { id: 3, title: 'Food Reviews', subtitle: 'Food Reviewed', image: 'https://placehold.co/200x200/E91E63/FFFFFF?text=Food' },
+        { id: 4, title: 'Farmers Market Reviews', subtitle: 'Markets Reviewed', image: 'https://placehold.co/200x200/8BC34A/FFFFFF?text=Market' },
+        { id: 5, title: 'Recipe Reviews', subtitle: 'Recipes Reviewed', image: 'https://placehold.co/200x200/03A9F4/FFFFFF?text=Recipe' },
+        { id: 6, title: 'CPG Reviews', subtitle: 'FCPG Reviewed', image: 'https://placehold.co/200x200/9C27B0/FFFFFF?text=CPG' },
+    ];
+    return (
+        <div>
+            <div className="p-4">
+                 <h2 className="text-2xl font-bold text-gray-800">TAPPP Reviews</h2>
+                <p className="text-gray-500">Find Food Near You</p>
+            </div>
+            <div className="grid grid-cols-2 gap-4 p-4">
+                {reviewCategories.map(cat => <FeatureCard key={cat.id} title={cat.title} subtitle={cat.subtitle} onClick={() => {}} />)}
+            </div>
+        </div>
+    );
+};
+
+// --- Community/Profiles Feature ---
+const Community = () => {
+    const profileCategories = [
+        { id: 1, title: 'Foodies', subtitle: 'Find Foodies to Follow' },
+        { id: 2, title: 'Restaurants' },
+        { id: 3, title: 'Food Trucks' },
+        { id: 4, title: 'Food Carts' },
+        { id: 5, title: 'Food Non-Profits' },
+        { id: 6, title: 'Food Producers' },
+    ];
+     return (
+        <div>
+            <div className="p-4">
+                <h2 className="text-2xl font-bold text-gray-800">Profiles</h2>
+                <p className="text-gray-500">Find Profiles Near You</p>
+            </div>
+            <div className="grid grid-cols-2 gap-4 p-4">
+                {profileCategories.map(cat => <FeatureCard key={cat.id} title={cat.title} subtitle={cat.subtitle} onClick={() => {}} />)}
+            </div>
+        </div>
+    );
+};
+
+
+// --- Eating & Drinking Feature ---
+const EatingAndDrinking = () => {
+    const categories = [
+        { title: 'Delivery' }, { title: 'Reservations' }, { title: 'Order Ahead' },
+        { title: 'Food Map' }, { title: 'Surplus' }, { title: 'Gift Cards' }
+    ];
+    return (
+         <div>
+            <div className="p-4">
+                <h2 className="text-2xl font-bold text-gray-800">Eating & Drinking</h2>
+                <p className="text-gray-500">Uncover Flavors Personalized for You</p>
+            </div>
+            <div className="grid grid-cols-2 gap-4 p-4">
+                {categories.map((cat, i) => <FeatureCard key={i} title={cat.title} onClick={() => {}}/>)}
+            </div>
+        </div>
+    );
+};
+
+// --- Tastemakers Feature ---
+const Tastemakers = () => {
+     const flavors = [
+        { title: 'Sweet' }, { title: 'Salty' }, { title: 'Sour/Bitter' },
+        { title: 'Spicy' }, { title: 'Umami' }, { title: 'Mystery' }
+    ];
+    return (
+         <div>
+            <div className="p-4">
+                <h2 className="text-2xl font-bold text-gray-800">Tastemakers</h2>
+                <p className="text-gray-500">Uncover Flavors Personalized for You</p>
+            </div>
+            <div className="grid grid-cols-2 gap-4 p-4">
+                {flavors.map((flavor, i) => <FeatureCard key={i} title={flavor.title} onClick={() => {}}/>)}
+            </div>
+        </div>
+    );
+};
+
+// --- Secondary Navigation Feature ---
+const SecondaryNav = () => {
+    const navItems = [
+        { title: 'About Us' }, { title: 'Privacy Policy / Legal' }, { title: 'Careers' },
+        { title: 'Company Blog' }, { title: 'Team Login' }, { title: 'Social Responsibility' }
+    ];
+    return (
+        <div>
+            <div className="p-4">
+                 <h2 className="text-2xl font-bold text-gray-800">Learn More</h2>
+            </div>
+            <div className="divide-y">
+                {navItems.map((item, i) => (
+                    <button key={i} className="w-full text-left p-4 hover:bg-gray-50 font-medium">
+                        {item.title}
+                    </button>
+                ))}
+            </div>
+        </div>
+    );
+};
+
+
+function FeaturesContainer() {
+    const [activeFeature, setActiveFeature] = useState('home');
+
+    const renderFeature = () => {
+        const goHome = () => setActiveFeature('home');
+        
+        switch (activeFeature) {
+            case 'location_menu':
+                return (<div><FeatureHeader title="Menu Items Near You" onBack={goHome} /><LocationBasedMenu /></div>);
+            case 'reviews':
+                return (<div><FeatureHeader title="Reviews" onBack={goHome} /><Reviews setActiveFeature={setActiveFeature} /></div>);
+            case 'community':
+                return (<div><FeatureHeader title="Community" onBack={goHome} /><Community /></div>);
+            case 'eating_drinking':
+                 return (<div><FeatureHeader title="Eating & Drinking" onBack={goHome} /><EatingAndDrinking /></div>);
+            case 'tastemakers':
+                return (<div><FeatureHeader title="Tastemakers" onBack={goHome} /><Tastemakers /></div>);
+            case 'secondary_nav':
+                return (<div><FeatureHeader title="Learn More" onBack={goHome} /><SecondaryNav /></div>);
+            case 'home':
+            default:
+                return <HomePage setActiveFeature={setActiveFeature} />;
+        }
+    };
+    
+    return (
+         <div className="w-full max-w-lg mx-auto bg-white font-sans shadow-2xl" style={{height: '100dvh', overflowY: 'auto'}}>
+            <main>
+                 {renderFeature()}
+            </main>
+         </div>
+    );
+}
+
+
+// --- Main App Component ---
+
+export default function App() {
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+    return isLoggedIn 
+        ? <FeaturesContainer /> 
+        : <AuthContainer onLoginSuccess={() => setIsLoggedIn(true)} />;
+}
+
 
