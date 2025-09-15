@@ -1,1 +1,236 @@
+import React, { useState } from 'react';
+
+// --- Icon Components ---
+// Using inline SVGs for icons to keep everything in one file.
+const UserIcon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
+    <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
+  </svg>
+);
+
+const MailIcon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
+    <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
+    <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
+  </svg>
+);
+
+const LockIcon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
+    <path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clipRule="evenodd" />
+  </svg>
+);
+
+const CalendarIcon = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
+        <path fillRule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clipRule="evenodd" />
+    </svg>
+);
+
+
+// --- Authentication Components ---
+
+function SignUpForm({ setView }) {
+    const [userType, setUserType] = useState('I Want Food');
+
+    return (
+        <div className="w-full max-w-md space-y-6">
+            <div>
+                <h2 className="text-center text-3xl font-extrabold text-gray-900">Create new Account</h2>
+                <p className="mt-2 text-center text-sm text-gray-600">
+                    Already Registered?{' '}
+                    <button onClick={() => setView('login')} className="font-medium text-orange-600 hover:text-orange-500">
+                        Log in here.
+                    </button>
+                </p>
+            </div>
+            <form className="space-y-6" action="#" method="POST">
+                <div className="relative">
+                    <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+                        <UserIcon />
+                    </div>
+                    <input id="name" name="name" type="text" required className="appearance-none rounded-md relative block w-full px-3 py-3 pl-10 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm" placeholder="Name" />
+                </div>
+                 <div className="relative">
+                    <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+                        <MailIcon />
+                    </div>
+                    <input id="email-address" name="email" type="email" autoComplete="email" required className="appearance-none rounded-md relative block w-full px-3 py-3 pl-10 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm" placeholder="Email address" />
+                </div>
+                <div className="relative">
+                    <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+                        <LockIcon />
+                    </div>
+                    <input id="password" name="password" type="password" autoComplete="current-password" required className="appearance-none rounded-md relative block w-full px-3 py-3 pl-10 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm" placeholder="Password" />
+                </div>
+                 <div className="relative">
+                    <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+                        <CalendarIcon />
+                    </div>
+                    <input id="dob" name="dob" type="text" onFocus={(e) => e.target.type='date'} onBlur={(e) => e.target.type='text'} required className="appearance-none rounded-md relative block w-full px-3 py-3 pl-10 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm" placeholder="Date of Birth" />
+                </div>
+
+                <div>
+                    <label className="text-sm font-medium text-gray-700">User Type</label>
+                    <div className="mt-2 space-y-2">
+                        {['I Want Food', 'Food Business', 'Non-Profit Working With Food', 'Food Tribe Teammate'].map((type) => (
+                            <div key={type} className="flex items-center">
+                                <input id={type} name="userType" type="radio" value={type} checked={userType === type} onChange={() => setUserType(type)} className="h-4 w-4 text-orange-600 focus:ring-orange-500 border-gray-300"/>
+                                <label htmlFor={type} className="ml-3 block text-sm font-medium text-gray-700">{type}</label>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+
+                <div>
+                    <button type="submit" className="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-orange-600 hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500">
+                        Sign up
+                    </button>
+                </div>
+            </form>
+        </div>
+    );
+}
+
+function LoginForm({ setView }) {
+    return (
+        <div className="w-full max-w-md space-y-8">
+            <div>
+                <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">Login</h2>
+                <p className="mt-2 text-center text-sm text-gray-600">
+                    Sign in to continue.
+                </p>
+            </div>
+            <form className="mt-8 space-y-6" action="#" method="POST">
+                <div className="rounded-md shadow-sm -space-y-px">
+                     <div className="relative">
+                        <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+                            <UserIcon />
+                        </div>
+                        <input id="name-login" name="name" type="text" required className="appearance-none rounded-md relative block w-full px-3 py-3 pl-10 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm" placeholder="Name" />
+                    </div>
+                     <div className="relative pt-4">
+                        <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 pt-4">
+                            <LockIcon />
+                        </div>
+                        <input id="password-login" name="password" type="password" autoComplete="current-password" required className="appearance-none rounded-md relative block w-full px-3 py-3 pl-10 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm" placeholder="Password" />
+                    </div>
+                </div>
+
+                <div className="flex items-center justify-between">
+                    <div className="text-sm">
+                        <button onClick={() => setView('forgot_password')} className="font-medium text-orange-600 hover:text-orange-500">
+                            Forgot your password?
+                        </button>
+                    </div>
+                </div>
+
+                <div>
+                    <button type="submit" className="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-orange-600 hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500">
+                        Log in
+                    </button>
+                </div>
+                 <p className="mt-2 text-center text-sm text-gray-600">
+                    Don't have an account?{' '}
+                    <button onClick={() => setView('signup')} className="font-medium text-orange-600 hover:text-orange-500">
+                        Sign up here.
+                    </button>
+                </p>
+            </form>
+        </div>
+    );
+}
+
+function ForgotPasswordForm({ setView }) {
+    return (
+        <div className="w-full max-w-md space-y-8">
+            <div>
+                <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">Forgot Password</h2>
+                <p className="mt-2 text-center text-sm text-gray-600">
+                    Enter your email to receive a new password.
+                </p>
+            </div>
+            <form className="mt-8 space-y-6" action="#" method="POST">
+                 <div className="relative">
+                    <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+                        <MailIcon />
+                    </div>
+                    <input id="email-forgot" name="email" type="email" autoComplete="email" required className="appearance-none rounded-md relative block w-full px-3 py-3 pl-10 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm" placeholder="Email address" />
+                </div>
+                <div>
+                    <button type="submit" className="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-orange-600 hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500">
+                        Send
+                    </button>
+                </div>
+                <p className="mt-2 text-center text-sm text-gray-600">
+                    Remembered your password?{' '}
+                    <button onClick={() => setView('login')} className="font-medium text-orange-600 hover:text-orange-500">
+                        Log in.
+                    </button>
+                </p>
+            </form>
+        </div>
+    );
+}
+
+
+// --- Main App Structure ---
+
+function AuthContainer({ onLoginSuccess }) {
+    const [view, setView] = useState('signup'); // 'signup', 'login', or 'forgot_password'
+
+    const renderForm = () => {
+        switch (view) {
+            case 'login':
+                return <LoginForm setView={setView} />;
+            case 'forgot_password':
+                return <ForgotPasswordForm setView={setView} />;
+            case 'signup':
+            default:
+                return <SignUpForm setView={setView} />;
+        }
+    };
+
+    return (
+        <div className="min-h-screen bg-gray-50 flex flex-col justify-center items-center py-12 sm:px-6 lg:px-8">
+            <div className="sm:mx-auto sm:w-full sm:max-w-md">
+                 <h1 className="text-center text-4xl font-bold text-orange-500 tracking-wider">FOOD TRIBE</h1>
+            </div>
+            <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
+                <div className="bg-white py-8 px-4 shadow-xl rounded-lg sm:px-10">
+                    {renderForm()}
+                </div>
+            </div>
+        </div>
+    );
+}
+
+// Placeholder for the main application after user logs in.
+// We will build out /discovery, /profiles, /reviews etc. here.
+function MainApplication() {
+    return (
+        <div className="p-8">
+            <h1 className="text-2xl font-bold">Welcome to Food Tribe!</h1>
+            <p className="mt-4">This is where the main application content will go.</p>
+            <p>We will build out the following sections here:</p>
+            <ul className="list-disc list-inside mt-2">
+                <li>Discovery</li>
+                <li>Profiles</li>
+                <li>Reviews</li>
+                <li>Tastemakers</li>
+                <li>Transactions</li>
+            </ul>
+        </div>
+    );
+}
+
+
+export default function App() {
+    // This state will manage if a user is logged in or not.
+    // For now, we can toggle it manually to see the two different views.
+    // Set to 'false' to see Auth screens, 'true' to see the main app.
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+    return isLoggedIn ? <MainApplication /> : <AuthContainer onLoginSuccess={() => setIsLoggedIn(true)} />;
+}
 
