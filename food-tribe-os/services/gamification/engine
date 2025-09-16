@@ -1,0 +1,40 @@
+# Gamification Service
+
+## Overview
+
+This service is designed to drive user engagement and foster a vibrant community within the Food Tribe OS ecosystem. It provides a framework for rewarding users for valuable contributions that align with key user needs, such as feeling connected, gaining recognition, and saving money. The system creates a positive feedback loop between users and local merchants, encouraging participation and growth.
+
+---
+
+## Core Concepts
+
+The gamification engine is built on four core concepts:
+
+* **Points System:** Users earn points for performing specific, valuable actions within the platform.
+* **Rank System:** As users accumulate points, they achieve new ranks (e.g., Foodie, Advocate, Tastemaker) that reflect their level of contribution to the community.
+* **Rewards:** Points can be redeemed for tangible rewards provided by participating merchants, such as discounts or free items.
+* **Gamer Profiles:** Each user has a public profile that showcases their rank, points, and contributions, providing social recognition for their efforts.
+
+---
+
+## User Actions & Point System
+
+Users can earn points through several types of engagement, which fall into two main gametypes: User Generated Content and Crowd-Sourced Curation.
+
+* **Sharing Content:** Users are rewarded for evangelizing the platform by:
+    * Sharing deals with their network.
+    * Sharing photos of their experiences.
+    * Inviting new friends to join the platform.
+* **Creating Content (UGC):** Users can contribute content directly to the platform by:
+    * Uploading photos across various categories like "Food," "Atmosphere," and "People".
+* **Community Curation:** Users help improve the quality of the platform for everyone by:
+    * Voting on deals and other user-submitted content to help surface the best information.
+
+---
+
+## Merchant Participation
+
+Local merchants are a critical part of the gamification ecosystem, creating a symbiotic relationship with the user community.
+
+* **Sharing:** Merchants can share their own deals and content to attract and engage with customers.
+* **Giving:** Merchants provide the rewards that users can redeem with their points, driving foot traffic and sales while giving back to the community's most active members.
